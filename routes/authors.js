@@ -62,11 +62,11 @@ authors.get('/authors/:authorId', async (req, res) => {
 })
 
 authors.post('/authors', async (req, res) => {
-    const {nome, cognome, email, birthdate, avatar} = req.body
+    const {name, surname, email, birthdate, avatar} = req.body
 
     const newAuthor = new authorModel({
-        nome: nome,
-        cognome: cognome,
+        name: name,
+        surname: surname,
         email: email,
         birthdate: birthdate,
         avatar: avatar

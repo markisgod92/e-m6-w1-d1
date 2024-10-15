@@ -1,18 +1,20 @@
 const mongoose = require('mongoose')
 
 const AuthorSchema = new mongoose.Schema({
-    nome: {
+    name: {
         type: String, 
-        required: true
+        required: true,
+        trim: true
     },
-    cognome: {
+    surname: {
         type: String, 
-        required: true
+        required: true,
+        trim: true
     },
     email: {
-        type: String, 
-        required: false,
-        default: 'email@email.com'
+        type: String,
+        unique: true,
+        required: true
     },
     birthdate: {
         type: String, 
