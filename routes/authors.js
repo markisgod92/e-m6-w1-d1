@@ -1,5 +1,6 @@
 const express = require('express')
 const authorModel = require('../models/AuthorModel')
+const AuthorModel = require('../models/AuthorModel')
 const authors = express.Router()
 
 
@@ -80,6 +81,67 @@ authors.post('/authors', async (req, res) => {
                 message: 'Author added successfully',
                 savedAuthor
             })
+    } catch (e) {
+        res
+            .status(500)
+            .send({
+                message: e.message
+            })
+    }
+})
+
+authors.put('/authors/:authorId', async (req, res) => {
+    const {authorId} = req.params
+    const authorExists = await AuthorModel.findById(authorId)
+
+    if (!authorExists) {
+        return res.status(400)
+            .send({
+                statusCode: 400,
+                message: 'Author at ID not found'
+            })
+    }
+
+    try {
+        const updatedAuthor = req.body
+        const options = {new:true}
+
+        const result = await authorModel.findByIdAndUpdate(authorId, updatedAuthor, options)
+
+        res.status(200)
+            .send(result)
+
+    } catch (e) {
+        res
+            .status(500)
+            .send({
+                message: e.message
+            })
+    }
+})
+
+authors.delete('/authors/:authorId', async (req, res) => {
+    const {authorId} = req.params
+    const authorExists = await AuthorModel.findById(authorId)
+
+    if (!authorExists) {
+        return res.status(400)
+            .send({
+                statusCode: 400,
+                message: 'Author at ID not found'
+            })
+    }
+
+    try {
+        const result = await authorModel.findByIdAndDelete(authorId)
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'Author deleted',
+                result
+            })
+
     } catch (e) {
         res
             .status(500)
